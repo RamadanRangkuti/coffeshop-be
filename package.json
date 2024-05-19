@@ -1,0 +1,30 @@
+{
+  "name": "coffeshop-be",
+  "version": "1.0.0",
+  "description": "backend for coffeshop",
+  "main": "index.ts",
+  "scripts": {
+    "build": "tsc --build",
+    "start": "node ./dist/index.js",
+    "dev": "nodemon index.ts"
+  },
+  "keywords": [
+    "typescript",
+    "express",
+    "nodejs"
+  ],
+  "author": "Ramadan Rangkuti",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "pg": "^8.11.5"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/pg": "^8.11.6",
+    "nodemon": "^3.1.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  }
+}
