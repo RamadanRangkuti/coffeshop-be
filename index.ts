@@ -1,5 +1,5 @@
 import express from "express";
-// import { Request, Response } from "express-serve-static-core";
+import cors from "cors";
 import * as dotenv from "dotenv";
 
 dotenv.config();
@@ -7,7 +7,7 @@ dotenv.config();
 import router from "./src/routes";
 
 const app = express();
-
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 
@@ -19,4 +19,4 @@ app.listen(PORT, () => {
 
 app.get('*', (req, res) => {
   return res.send({ status: 404, message: 'not found' })
-})
+});

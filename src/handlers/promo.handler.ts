@@ -1,15 +1,15 @@
 import { Request, Response } from "express-serve-static-core";
 
-import { getDetailProducts, getProducts,addProducts, updateProducts, deleteProducts } from "../repositories/product.repo";
-import { IBody, IParams, IQuery } from "../models/product.model";
+import { getDetailPromo, getPromo, addPromo, updatePromo, deletePromo } from "../repositories/promo.repo";
+import { IBody, IParams, IQuery } from "../models/promo.model";
 
 export const get = async (req: Request<{},{},{}, IQuery>, res:Response) => {
   try {
-    const { name, category,  minPrice, maxPrice, sortBy = "product_name", sortOrder="asc", promo, page=1, limit=3 } = req.query;
-    const result = await getProducts(name, category, minPrice, maxPrice, sortBy, sortOrder, promo, page, limit);
+    const { promo_name } = req.query;
+    const result = await getPromo(promo_name);
     if(result.rows.length === 0 ){
       return res.status(404).json({
-        msg: "Product not found",
+        msg: "Promo not found",
         data:[]
       });
     }
@@ -31,10 +31,10 @@ export const get = async (req: Request<{},{},{}, IQuery>, res:Response) => {
 export const getDetail = async (req: Request<IParams>, res:Response) =>{
   const {id} = req.params;
   try {
-    const result = await getDetailProducts(id);
+    const result = await getDetailPromo(id);
     if(result.rows.length === 0 ){
       return res.status(404).json({
-        msg: "Product not found",
+        msg: "Promo not found",
         data:[]
       });
     }
@@ -44,7 +44,7 @@ export const getDetail = async (req: Request<IParams>, res:Response) =>{
     });
   } catch (err) {
     if(err instanceof Error){
-      return console.log(err.message);
+      console.log(err.message);
     }
     return res.status(500).json({
       msg: "Error",
@@ -55,7 +55,7 @@ export const getDetail = async (req: Request<IParams>, res:Response) =>{
 
 export const add = async (req: Request<{}, {}, IBody>, res:Response) =>{
   try {
-    const result = await addProducts(req.body);
+    const result = await addPromo(req.body);
     return res.status(201).json({
       message: "Success",
       data:result.rows
@@ -74,10 +74,10 @@ export const add = async (req: Request<{}, {}, IBody>, res:Response) =>{
 export const update = async (req: Request<IParams, {}, IBody>, res:Response) =>{
   const { id } = req.params;
   try {
-    const oldProductResult = await getDetailProducts(id);
+    const oldProductResult = await getDetailPromo(id);
     if (oldProductResult.rows.length === 0) {
       return res.status(404).json({
-        msg: "Product tidak ditemukan",
+        msg: "Promo not found",
         data: []
       });
     }
@@ -85,7 +85,7 @@ export const update = async (req: Request<IParams, {}, IBody>, res:Response) =>{
 
     const updatedData = { ...oldProduct, ...req.body };
  
-    const result = await updateProducts(id, updatedData);
+    const result = await updatePromo(id, updatedData);
     return res.status(200).json({
       message: "Success updated data",
       data:result.rows
@@ -105,10 +105,10 @@ export const update = async (req: Request<IParams, {}, IBody>, res:Response) =>{
 export const remove = async (req: Request<IParams>, res:Response) =>{
   const {id} = req.params;
   try {
-    const result = await deleteProducts(id);
+    const result = await deletePromo(id);
     if(result.rows.length === 0 ){
       return res.status(404).json({
-        msg: "Product tidak ditemukan",
+        msg: "User tidak ditemukan",
         data:[]
       });
     }

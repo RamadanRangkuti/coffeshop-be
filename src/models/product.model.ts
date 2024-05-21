@@ -3,9 +3,16 @@ export interface IParams{
 }
 export interface IQuery{
   name?: string;
+  category?: string;
+  minPrice?: number;
+  maxPrice?: number;
+  sortBy?: string;
+  sortOrder?: string;
+  promo?: boolean,
+  page?: number;
+  limit?: number;
 }
 export interface IBody{
-  id?:number,
   product_name: string,
   image:string,
   category:string,
