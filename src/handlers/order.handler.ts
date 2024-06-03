@@ -4,22 +4,22 @@ import { getDetailOrder, getOrder, addOrder, updateOrder, deleteOrder } from "..
 import { getDetailProducts } from "../repositories/product.repo";
 import { IBody, IParams, IQuery } from "../models/order.model";
 
-export const get = async (req: Request<{},{},{}, IQuery>, res:Response) => {
+export const get = async (req: Request<{}, {}, {}, IQuery>, res: Response) => {
   try {
-    const { order_number, page=1, limit=3 } = req.query;
+    const { order_number, page = 1, limit = 3 } = req.query;
     const result = await getOrder(order_number, page, limit);
-    if(result.rows.length === 0 ){
+    if (result.rows.length === 0) {
       return res.status(404).json({
         msg: "Order not found",
-        data:[]
+        data: []
       });
     }
     return res.status(200).json({
       msg: "Succes",
-      data:result.rows
+      data: result.rows
     });
   } catch (err: unknown) {
-    if(err instanceof Error){
+    if (err instanceof Error) {
       console.log(err.message);
     }
     return res.status(500).json({
@@ -29,22 +29,22 @@ export const get = async (req: Request<{},{},{}, IQuery>, res:Response) => {
   }
 };
 
-export const getDetail = async (req: Request<IParams>, res:Response) =>{
-  const {id} = req.params;
+export const getDetail = async (req: Request<IParams>, res: Response) => {
+  const { id } = req.params;
   try {
     const result = await getDetailOrder(id);
-    if(result.rows.length === 0 ){
+    if (result.rows.length === 0) {
       return res.status(404).json({
         msg: "Order not found",
-        data:[]
+        data: []
       });
     }
     return res.status(200).json({
-      msg: "Success",
-      data:result.rows
+      msg: "Successs",
+      data: result.rows
     });
   } catch (err) {
-    if(err instanceof Error){
+    if (err instanceof Error) {
       console.log(err.message);
     }
     return res.status(500).json({
@@ -54,7 +54,7 @@ export const getDetail = async (req: Request<IParams>, res:Response) =>{
   }
 };
 
-export const add = async (req: Request<{}, {}, IBody>, res:Response) =>{
+export const add = async (req: Request<{}, {}, IBody>, res: Response) => {
   try {
     const reqProd = String(req.body.product_id);
     const prod = await getDetailProducts(reqProd);
@@ -73,10 +73,10 @@ export const add = async (req: Request<{}, {}, IBody>, res:Response) =>{
     const result = await addOrder(newOrder);
     return res.status(201).json({
       message: "Success",
-      data:result.rows
+      data: result.rows
     });
   } catch (err) {
-    if(err instanceof Error){
+    if (err instanceof Error) {
       console.log(err.message);
     }
     return res.status(500).json({
@@ -86,7 +86,7 @@ export const add = async (req: Request<{}, {}, IBody>, res:Response) =>{
   }
 };
 
-export const update = async (req: Request<IParams, {}, IBody>, res:Response) =>{
+export const update = async (req: Request<IParams, {}, IBody>, res: Response) => {
   const { id } = req.params;
   try {
     const oldProductResult = await getDetailOrder(id);
@@ -99,14 +99,14 @@ export const update = async (req: Request<IParams, {}, IBody>, res:Response) =>{
     const oldProduct = oldProductResult.rows[0];
 
     const updatedData = { ...oldProduct, ...req.body };
- 
+
     const result = await updateOrder(id, updatedData);
     return res.status(200).json({
-      message: "Success updated data",
-      data:result.rows
+      message: "Successs updated data",
+      data: result.rows
     });
   } catch (err) {
-    if(err instanceof Error){
+    if (err instanceof Error) {
       console.log(err.message);
     }
     return res.status(500).json({
@@ -117,22 +117,22 @@ export const update = async (req: Request<IParams, {}, IBody>, res:Response) =>{
 };
 
 
-export const remove = async (req: Request<IParams>, res:Response) =>{
-  const {id} = req.params;
+export const remove = async (req: Request<IParams>, res: Response) => {
+  const { id } = req.params;
   try {
     const result = await deleteOrder(id);
-    if(result.rows.length === 0 ){
+    if (result.rows.length === 0) {
       return res.status(404).json({
         msg: "Order tidak ditemukan",
-        data:[]
+        data: []
       });
     }
     return res.status(200).json({
-      msg: "Success Deleted Order",
-      data:result.rows
+      msg: "Successss Deleted Order",
+      data: result.rows
     });
   } catch (err) {
-    if(err instanceof Error){
+    if (err instanceof Error) {
       console.log(err.message);
     }
     return res.status(500).json({

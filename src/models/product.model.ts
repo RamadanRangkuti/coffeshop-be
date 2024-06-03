@@ -1,27 +1,25 @@
-export interface IParams{
-  id : string;
+export interface IParams {
+  id: string;
 }
-export interface IQuery{
+export interface IQuery {
   name?: string;
   category?: string;
   minPrice?: number;
   maxPrice?: number;
-  sortBy?: string;
-  sortOrder?: string;
+  sort?: string;
   promo?: boolean,
-  page?: number;
-  limit?: number;
+  page?: string;
+  limit?: string;
 }
-export interface IBody{
+export interface IBody {
   product_name: string,
-  image:string,
-  category:string,
-  price:number,
-  description:string,
+  image?: string | null,
+  category: string,
+  price: number,
+  description: string,
 }
 
-export interface IProducts extends IBody{
-  uid: string,
+export interface IProducts extends IBody {
   created_at: string,
   updated_at?: string | null;
 };
