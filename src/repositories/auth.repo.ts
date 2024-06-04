@@ -10,8 +10,8 @@ export const registerUser = (body: IBody, hashedPassword: string): Promise<Query
   return db.query(query, values);
 };
 
-export const loginUser = (email: string): Promise<QueryResult<{ fullname: string, id: string, password: string }>> => {
-  const query = `SELECT id, fullname, password from users WHERE email = $1`;
+export const loginUser = (email: string): Promise<QueryResult<{ fullname: string, id: string, password: string, role: number }>> => {
+  const query = `SELECT id, fullname, password, role from users WHERE email = $1`;
   const values = [email];
   return db.query(query, values);
 }

@@ -7,19 +7,20 @@ export interface IQuery {
   minPrice?: number;
   maxPrice?: number;
   sort?: string;
-  promo?: boolean,
+  promo?: boolean;
   page?: string;
   limit?: string;
 }
 export interface IBody {
-  product_name: string,
-  image?: string | null,
-  category: string,
-  price: number,
-  description: string,
+  id?: number | undefined;
+  product_name: string;
+  image?: string | null;
+  category: string;
+  price: number;
+  description: string;
 }
 
 export interface IProducts extends IBody {
-  created_at: string,
+  created_at: string;
   updated_at?: string | null;
 };

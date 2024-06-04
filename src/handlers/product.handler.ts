@@ -4,6 +4,7 @@ import { getDetailProducts, getProducts, addProducts, updateProducts, deleteProd
 import { IBody, IParams, IQuery } from "../models/product.model";
 import { IProductResponse } from "../models/response.model";
 import getLink from "../helpers/getLink";
+// import db from "../configs/connection";
 
 export const get = async (req: Request<{}, {}, {}, IQuery>, res: Response) => {
   try {
@@ -15,11 +16,11 @@ export const get = async (req: Request<{}, {}, {}, IQuery>, res: Response) => {
       });
     }
     const dataProduct = await getTotalProducts(req.query);
-    console.log(dataProduct);
+    // console.log(dataProduct);
     const page = parseInt((req.query.page as string) || "1");
     const totalData = parseInt(dataProduct.rows[0].total_product);
     const totalPage = Math.ceil(totalData / parseInt(req.query.limit as string));
-    console.log(req.baseUrl);
+    // console.log(req.baseUrl);
     return res.status(200).json({
       msg: "Success",
       data: result.rows,
@@ -66,6 +67,62 @@ export const getDetail = async (req: Request<IParams>, res: Response<IProductRes
     });
   }
 };
+
+// export const add = async (req: Request<{}, {}, IBodyImg>, res: Response<IProductResponse>) => {
+//   if (req.file?.filename) {
+//     req.body.image = req.file.filename;
+//   }
+//   try {
+//     const client = await db.connect();
+//     try {
+//       client.query("BEGIN");
+//       const result = await addProducts(req.body);
+//       const productId = result.rows[0].id;
+//       if (!productId) throw new Error("Product tidak ditemukan");
+//       const prodImg = await addProductsImg(req.body)
+//       await client.query("COMMIT");
+//       return res.status(201).json({
+//         msg: "Success",
+//         data: result.rows
+//       });
+//     } catch (error) {
+//       await client.query("ROLLBACK");
+//       throw error;
+//     } finally {
+//       client.release();
+//     }
+//   } catch (error) {
+//     if (error instanceof Error) {
+//       console.log(error.message);
+//     }
+//     return res.status(500).json({
+//       msg: "Error",
+//       err: "Internal Server Error",
+//     });
+//   }
+// };
+
+
+// export const add = async (req: Request<{}, {}, IBody>, res: Response<IProductResponse>) => {
+//   if (req.file?.filename) {
+//     req.body.image = req.file.filename;
+//   }
+//   try {
+//     const result = await addProducts(req.body);
+//     return res.status(201).json({
+//       msg: "Success",
+//       data: result.rows
+//     });
+//   } catch (err) {
+//     if (err instanceof Error) {
+//       console.log(err.message);
+//     }
+//     return res.status(500).json({
+//       msg: "Error",
+//       err: "Internal Server Error",
+//     });
+//   }
+// };
 
 export const add = async (req: Request<{}, {}, IBody>, res: Response<IProductResponse>) => {
   if (req.file?.filename) {

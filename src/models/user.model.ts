@@ -25,10 +25,11 @@ export interface IUsers extends IBody {
 };
 
 export interface IRegisterBody extends IBody {
-  password: string
+  password: string;
 }
 
 export interface ILoginBody {
-  email: string,
-  password: string
+  email: string;
+  password: string;
+  role: number;
 }

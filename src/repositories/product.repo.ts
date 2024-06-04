@@ -95,50 +95,43 @@ export const addProducts = (body: IBody): Promise<QueryResult<IProducts>> => {
   return db.query(query, values);
 };
 
-// export const updateProducts = (id: string, body: IBody): Promise<QueryResult<IProducts>> => {
-//   let query = `UPDATE products SET `;
-//   let fields: string[] = [];
-//   let values: (string | number | null)[] = [];
-
+// export const addProducts = (body: IBody): Promise<QueryResult<IProducts>> => {
+//   const query = `INSERT INTO products (product_name, image, category, price, description) values ($1,$2,$3,$4,$5) returning *`;
 //   const { product_name, image, category, price, description } = body;
-
-//   if (product_name) {
-//     fields.push(`product_name = $${fields.length + 1}`);
-//     values.push(product_name);
-//   }
-
-//   if (image) {
-//     fields.push(`image = $${fields.length + 1}`);
-//     values.push(image);
-//   }
-
-//   if (category) {
-//     fields.push(`category = $${fields.length + 1}`);
-//     values.push(category);
-//   }
-
-//   if (price) {
-//     fields.push(`price = $${fields.length + 1}`);
-//     values.push(price);
-//   }
-
-//   if (description) {
-//     fields.push(`description = $${fields.length + 1}`);
-//     values.push(description);
-//   }
-
-//   fields.push(`updated_at = now()`);
-
-//   query += fields.join(', ');
-
-//   const idNumber = values.length + 1;
-//   query += ` WHERE id = $${idNumber} returning *`;
-//   values.push(id);
-
-//   // console.log('Query:', query);
-//   // console.log('Values:', values);
-
+//   const values = [product_name, image, category, price, description];
 //   return db.query(query, values);
+// };
+
+// export const addProductsImg = (body: IBodyImg): Promise<QueryResult<IProducts>> => {
+//   const query = `INSERT INTO product_images (id_product, img_url) values ($1,$2) returning *`;
+//   const { id_product, img_url } = body;
+//   const values = [id_product, img_url];
+//   return db.query(query, values);
+// };
+
+// export const addProducts = async (body: IBody): Promise<QueryResult<IProducts>> => {
+//   const { product_name, image, category, price, description } = body;
+//   const client = await db.connect();
+//   const productResult = await client.query(`INSERT INTO products (product_name, image, category, price, description) values ($1,$2,$3,$4,$5) returning id`);
+//   const productId = productResult.rows[0].id;
+
+//   for (const fileData of file) {
+//     await client.query(
+//       `INSERT INTO products_images (id_product, image_url) 
+//       VALUES ($1, $2, $3, $4)`,
+//       [productId, fileData.filename]
+//     );
+//   }
+
+// await client.query('COMMIT');
+// return productResult.rows[0];
+// try {
+//   await client.query("BEGIN");
+// } catch (error) {
+
+// }
+// const values = [product_name, image, category, price, description];
+// return db.query(query, values);
 // };
 
 

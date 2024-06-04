@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express-serve-static-core";
 import jwt, { SignOptions } from "jsonwebtoken";
 import { IAuthResponse } from "../models/response.model";
 import { AppParams } from "../models/params";
+import { IPayload } from "../models/payload.model";
 
 
 export const jwtOptions: SignOptions = {
@@ -9,7 +10,7 @@ export const jwtOptions: SignOptions = {
   issuer: process.env.JWT_ISSUER
 }
 
-export const authorization = (req: Request<AppParams>, res: Response<IAuthResponse>, next: NextFunction) => {
+export const authorization = (role?: number) => (req: Request<AppParams>, res: Response<IAuthResponse>, next: NextFunction) => {
   const bearerToken = req.header("Authorization");
   if (!bearerToken) {
     return res.status(403).json({
@@ -28,14 +29,26 @@ export const authorization = (req: Request<AppParams>, res: Response<IAuthRespon
       })
     }
 
+    // const { id: idtes } = req.userPayload as IPayload;
+    // const { role } = req.userPayload as IPayload;
+    // console.log((payload as IPayload).role);
     // if (role) {
-    //   if ((payload as IPayload).role != 0) {
-    //     return res.status(401).json({
-    //       msg: "Forbidden",
-    //       err: "Don't Have access, only admin!"
-    //     })
-    //   }
+    //   console.log("role ada");
+    // } else {
+    //   console.log("role gak ada");
     // }
+    // console.log(role);
+    // console.log()
+    if (role) {
+      // console.log(role);
+      // console.log((payload as IPayload).role);
+      if ((payload as IPayload).role != role) {
+        return res.status(401).json({
+          msg: "Forbidden",
+          err: "Don't Have access, only admin!"
+        })
+      }
+    }
     req.userPayload = payload
     next();
 

@@ -8,9 +8,8 @@ const router = Router();
 
 router.get('/', get);
 router.get('/:id', singleUploader("images"), getDetail);
-router.post('/', authorization, singleUploader("images"), add);
-router.patch('/:id', singleUploader("images"), update);
-router.delete('/:id', authorization, remove);
-
+router.post('/', authorization(1), singleUploader("images"), add);
+router.patch('/:id', authorization(1), singleUploader("images"), update);
+router.delete('/:id', authorization(1), remove);
 
 export default router;
